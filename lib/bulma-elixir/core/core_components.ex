@@ -37,36 +37,29 @@ defmodule Bulma.CoreComponents do
       </.modal>
 
   """
-  attr :id, :string, required: true
-  attr :show, :boolean, default: false
-  attr :on_cancel, JS, default: %JS{}
-  slot :inner_block, required: true
 
-  def modal(assigns) do
-    ~H"""
-    <div
-      id={@id}
-      phx-mounted={@show && show_modal(@id)}
-      phx-remove={hide_modal(@id)}
-      data-cancel={JS.exec(@on_cancel, "phx-remove")}
-      class="modal is-flex"
-    >
-      <div class="modal-background"></div>
-      <div id={"#{@id}-content"}>
-        {render_slot(@inner_block)}
-      </div>
-    </div>
-    """
-  end
+  # attr :id, :string, required: true
+  # attr :show, :boolean, default: false
+  # attr :on_cancel, JS, default: %JS{}
+  # slot :inner_block, required: true
 
-  @doc """
-  Renders flash notices.
+  # def modal(assigns) do
+  #   ~H"""
+  #   <div
+  #     id={@id}
+  #     phx-mounted={@show && show_modal(@id)}
+  #     phx-remove={hide_modal(@id)}
+  #     data-cancel={JS.exec(@on_cancel, "phx-remove")}
+  #     class="modal is-flex"
+  #   >
+  #     <div class="modal-background"></div>
+  #     <div id={"#{@id}-content"}>
+  #       {render_slot(@inner_block)}
+  #     </div>
+  #   </div>
+  #   """
+  # end
 
-  ## Examples
-
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:info} phx-mounted={show("#flash")}>Welcome Back!</.flash>
-  """
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil

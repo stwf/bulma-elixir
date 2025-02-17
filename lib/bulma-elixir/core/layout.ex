@@ -75,7 +75,7 @@ defmodule Bulma.Core.Layout do
           {render_slot(left)}
         </div>
       </div>
-      <div class="level-item">
+      <div :if={@inner_block != []} class="level-item">
         {render_slot(@inner_block)}
       </div>
 

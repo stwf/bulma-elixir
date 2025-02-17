@@ -89,7 +89,7 @@ defmodule Bulma.Core.Elements do
 
   def icon(%{text: nil} = assigns) do
     ~H"""
-    <span class="icon">
+    <span class={["icon", @class]}>
       <i class={@name}></i>
     </span>
     """
@@ -97,9 +97,10 @@ defmodule Bulma.Core.Elements do
 
   def icon(assigns) do
     ~H"""
-    <span class="icon">
-      <i class="fas fa-home"></i>
+    <span class={["icon", @class]}>
+      <i class={@name}></i>
     </span>
+    <span>@text</span>
     """
   end
 
