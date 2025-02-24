@@ -78,21 +78,23 @@ defmodule Bulma.Core.Form do
       end)
 
     ~H"""
-    <div>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
-        <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
-        <input
-          type="checkbox"
-          id={@id}
-          name={@name}
-          value="true"
-          checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
-          {@rest}
-        />
-        {@label}
-      </label>
-      <.error :for={msg <- @errors}>{msg}</.error>
+    <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
+          <input
+            type="checkbox"
+            id={@id}
+            name={@name}
+            value="true"
+            checked={@checked}
+            class="checkbox"
+            {@rest}
+          />
+          {@label}
+        </label>
+        <.error :for={msg <- @errors}>{msg}</.error>
+      </div>
     </div>
     """
   end
@@ -102,17 +104,13 @@ defmodule Bulma.Core.Form do
     <div class="field">
       <label class="label">@label</label>
       <div class="control">
-        <select
-          id={@id}
-          name={@name}
-          class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
-          multiple={@multiple}
-          {@rest}
-        >
-          <option :if={@prompt} value="">{@prompt}</option>
-          {Phoenix.HTML.Form.options_for_select(@options, @value)}
-        </select>
-        <.error :for={msg <- @errors}>{msg}</.error>
+        <div class="select">
+          <select id={@id} name={@name} class="" multiple={@multiple} {@rest}>
+            <option :if={@prompt} value="">{@prompt}</option>
+            {Phoenix.HTML.Form.options_for_select(@options, @value)}
+          </select>
+          <.error :for={msg <- @errors}>{msg}</.error>
+        </div>
       </div>
     </div>
     """
@@ -120,18 +118,16 @@ defmodule Bulma.Core.Form do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div>
-      <div class="field">
-        <label class="label">@label</label>
-        <div class="control">
-          <textarea
-            id={@id}
-            name={@name}
-            class={["textarea", @errors == [] && "is-success", @errors != [] && "is-danger"]}
-            {@rest}
-          ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
-          <.error :for={msg <- @errors}>{msg}</.error>
-        </div>
+    <div class="field">
+      <label class="label">@label</label>
+      <div class="control">
+        <textarea
+          id={@id}
+          name={@name}
+          class={["textarea", @errors == [] && "is-success", @errors != [] && "is-danger"]}
+          {@rest}
+        ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+        <.error :for={msg <- @errors}>{msg}</.error>
       </div>
     </div>
     """
@@ -153,6 +149,7 @@ defmodule Bulma.Core.Form do
           {@rest}
         />
       </div>
+      <p :for={{msg, _} <- @errors} class="help is-danger">{msg}</p>
     </div>
     """
   end

@@ -2,11 +2,12 @@ defmodule Bulma.Core.Elements do
   use Phoenix.Component
 
   attr(:rest, :global)
+  attr(:class, :string, default: nil)
   slot(:inner_block, required: true)
 
   def block(assigns) do
     ~H"""
-    <div class="block" {@rest}>
+    <div class={["block", @class]} {@rest}>
       {render_slot(@inner_block)}
     </div>
     """
@@ -25,9 +26,18 @@ defmodule Bulma.Core.Elements do
   end
 
   attr(:class, :string, default: "")
-  attr(:kind, :atom, values: [:link, :button, :submit, :reset], default: :link)
+  attr(:href, :string, default: nil)
+  attr(:kind, :atom, values: [:link, :button, :submit, :reset], default: :button)
   slot(:inner_block, required: false)
   attr(:rest, :global)
+
+  def button(%{href: href} = assigns) when not is_nil(href) do
+    ~H"""
+    <button class={["button", @class]} href={@href} {@rest}>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
 
   def button(%{kind: :button} = assigns) do
     ~H"""
@@ -117,11 +127,12 @@ defmodule Bulma.Core.Elements do
   end
 
   attr(:rest, :global)
+  attr(:class, :string, default: nil)
   slot(:inner_block, required: true)
 
   def title(assigns) do
     ~H"""
-    <div class="title" {@rest}>
+    <div class={["title", @class]} {@rest}>
       {render_slot(@inner_block)}
     </div>
     """

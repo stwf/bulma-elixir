@@ -21,12 +21,13 @@ defmodule Bulma.Core.Components do
     """
   end
 
-  slot :inner_block, required: false
   attr(:class, :string, default: nil)
+  attr(:rest, :global)
+  slot :inner_block, required: false
 
   def tabs(assigns) do
     ~H"""
-    <div class={["tabs", @class]}>
+    <div class={["tabs", @class]} {@rest}>
       <ul>
         {render_slot(@inner_block)}
       </ul>
@@ -54,6 +55,7 @@ defmodule Bulma.Core.Components do
   slot(:nav_brand, required: false)
   slot(:nav_start, required: false)
   slot(:nav_end, required: false)
+  slot(:nav_dropdown, required: false)
   attr(:rest, :global)
   slot :inner_block, required: false
 
@@ -61,17 +63,35 @@ defmodule Bulma.Core.Components do
     ~H"""
     <nav class={["navbar", @class]} role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        {render_slot(@nav_brand)}
-      </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          {render_slot(@nav_start)}
+        <div class="navbar-item">
+          {render_slot(@nav_brand)}
         </div>
-        {render_slot(@inner_block)}
-
-        <div class="navbar-end">
-          {render_slot(@nav_end)}
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          phx-click={JS.toggle_class("is-active", to: "#navbarBasicExample")}
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbar-dropdown-id" class="navbar-dropdown">
+        {render_slot(@nav_dropdown)}
+      </div>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div :if={@nav_start != []} class="navbar-start">
+          <div :for={nav_start <- @nav_start} class="navbar-item">
+            {render_slot(nav_start)}
+          </div>
+        </div>
+        <div :if={@nav_end != []} class="navbar-end">
+          <div :for={nav_end <- @nav_end} class="navbar-item">
+            {render_slot(nav_end)}
+          </div>
         </div>
       </div>
     </nav>
