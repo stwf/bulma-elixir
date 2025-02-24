@@ -19,9 +19,10 @@ defmodule Bulma.MixProject do
   defp deps() do
     [
       {:ex_doc, "~> 0.34", only: :docs},
-      {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
+      {:phoenix_live_view, "1.0.1"},
       {:gettext, "~> 0.20"},
-      {:phoenix, "~> 1.7.14"}
+      {:phoenix, "~> 1.7.14"},
+      {:phoenix_html, "~> 4.1"}
     ]
   end
 
